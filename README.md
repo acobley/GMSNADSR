@@ -3,6 +3,9 @@ This is an Arduino sketch for the GMSN ADSR Eurorack module.
 See:
 https://gmsn.co.uk/collections/pure-modular/products/gmsn-pure-adsr
 
+In order to send the program to the Arduino see:
+https://learn.sparkfun.com/tutorials/pocket-avr-programmer-hookup-guide
+
 # Licence:
  * SA - Share & Adapt.
  * BY - Credit where credit is due.
