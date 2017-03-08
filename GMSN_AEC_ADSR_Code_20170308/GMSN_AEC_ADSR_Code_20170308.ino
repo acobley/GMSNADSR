@@ -58,14 +58,21 @@ void setup() {
   flash (10, 500);
 }
 
-void loop() {
+void GetPots(){
+  aPot = map(analogRead(A3), 0, 1024, 1024, 0);
+  dPot = map(analogRead(A2), 0, 1024, 200, 0);
+  sPot = map(analogRead(A1), 0, 1024, 0, 4096);
+  rPot = map(analogRead(A0), 0, 1024, 80, 0);
+}
 
+void loop() {
+  GetPots();
   //Fast attack label
 attack:
 
   //Get Attack Values. Moved down here to enable fast attack
   if (rising) {
-    aPot = map(analogRead(A3), 0, 1024, 1024, 0);
+
     //Removed fast attack
     float aCoeff = aPot / 16384;
     enVal += aCoeff * (4311 - enVal);
@@ -92,9 +99,9 @@ attack:
       }
 
       //else continue with decay to sustain
-      dPot = map(analogRead(A2), 0, 1024, 200, 0);
+
       float dCoeff = dPot / 16384;
-      sPot = map(analogRead(A1), 0, 1024, 0, 4096);
+
       enVal += dCoeff * (sPot - enVal);
       mcpWrite((int)enVal);
     }
@@ -106,7 +113,7 @@ attack:
     //Quick release label
 rlease:
 
-    rPot = map(analogRead(A0), 0, 1024, 80, 0);
+
     float rCoeff = rPot / 16384;
     enVal += rCoeff * (-100 - enVal);
     if (enVal < 0) {
