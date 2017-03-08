@@ -2,7 +2,8 @@
 This is an Arduino sketch for the GMSN ADSR Eurorack module.
 See:
 https://gmsn.co.uk/collections/pure-modular/products/gmsn-pure-adsr
-Licence:
+
+# Licence:
  * SA - Share & Adapt.
  * BY - Credit where credit is due.
  * For any purpose including Commercial and Group Buys.
