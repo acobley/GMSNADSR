@@ -53,8 +53,9 @@ void setup() {
   digitalWrite(DACCS, HIGH);
 
   //Interupts
-  attachInterrupt(digitalPinToInterrupt(TRIGGER), gateOn, FALLING); //Actually on rising !
-
+  attachInterrupt(digitalPinToInterrupt(TRIGGER), gateOn, FALLING); //Actually on rising, the gate is inverted.
+  //  Say we are alive by flashing the LED
+  flash (10,500);
 }
 
 void loop() {
@@ -109,7 +110,7 @@ rlease:
   }
 
   //Poll Trigger Button, debounce, initialise and goto Attack
-  int reading = digitalRead(4);
+  int reading = digitalRead(BUTTON);
 
   if ((millis() - lastDebounceTime) > debounceDelay) {
 
