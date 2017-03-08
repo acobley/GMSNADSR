@@ -93,10 +93,7 @@ attack:
       }
     } else {
 
-      //Check if in AR Mode and goto release
-      if (digitalRead(SW1) == LOW && digitalRead(SW2) == LOW) {
-        goto rlease;
-      }
+      
 
       //else continue with decay to sustain
 
