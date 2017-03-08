@@ -1,24 +1,24 @@
 /*
- * SA - Share & Adapt.
- * BY - Credit where credit is due.
- * For any purpose including Commercial and Group Buys.
- * No pressure to share design files.
- * R&D funded by donation.
- * https://gmsn.co.uk/products/r-d-funded-by-donations
+   SA - Share & Adapt.
+   BY - Credit where credit is due.
+   For any purpose including Commercial and Group Buys.
+   No pressure to share design files.
+   R&D funded by donation.
+   https://gmsn.co.uk/products/r-d-funded-by-donations
 
- * Creative Commons License
- * Licensed under a Creative Commons Attribution 4.0 International License.
- * http://creativecommons.org/licenses/by/4.0/
- * 
- * Source from 
- * https://gmsn.co.uk/products/gmsn-pure-adsr
- * 
- * original design and code from:
- * https://gmsn.co.uk/
- * 
- * This version by A.Cobley
- * andy@r2-dvd.org
- */
+   Creative Commons License
+   Licensed under a Creative Commons Attribution 4.0 International License.
+   http://creativecommons.org/licenses/by/4.0/
+
+   Source from
+   https://gmsn.co.uk/products/gmsn-pure-adsr
+
+   original design and code from:
+   https://gmsn.co.uk/
+
+   This version by A.Cobley
+   andy@r2-dvd.org
+*/
 
 
 
@@ -55,7 +55,7 @@ void setup() {
   //Interupts
   attachInterrupt(digitalPinToInterrupt(TRIGGER), gateOn, FALLING); //Actually on rising, the gate is inverted.
   //  Say we are alive by flashing the LED
-  flash (10,500);
+  flash (10, 500);
 }
 
 void loop() {
@@ -63,10 +63,19 @@ void loop() {
   //Fast attack label
 attack:
 
-
+  //Get Attack Values. Moved down here to enable fast attack
+  if (rising) {
+    aPot = map(analogRead(A3), 0, 1024, 1024, 0);
+    //Removed fast attack
+    float aCoeff = aPot / 16384;
+    enVal += aCoeff * (4311 - enVal);
+    if (enVal > 4095) {
+      enVal = 4095;
+    }
+  }
 
   //Check if Gate is On
-  if (digitalRead(BUTTON) == LOW || digitalRead(GATEIN) == LOW) {
+  if (digitalRead(GATEIN) == LOW) { // Inverted
 
     //Attack
     if (rising) {
@@ -75,10 +84,7 @@ attack:
       if (enVal == 4095) {
         rising = 0;
       }
-    }
-
-    //Not Attack
-    if (!rising) {
+    } else {
 
       //Check if in AR Mode and goto release
       if (digitalRead(SW1) == LOW && digitalRead(SW2) == LOW) {
@@ -109,57 +115,11 @@ rlease:
     mcpWrite((int)enVal);
   }
 
-  //Poll Trigger Button, debounce, initialise and goto Attack
-  int reading = digitalRead(BUTTON);
 
-  if ((millis() - lastDebounceTime) > debounceDelay) {
 
-    if (reading != buttonState) {
-      buttonState = reading;
-      if (buttonState == LOW) {
-        enVal = 0;
-        rising = 1;
-        rising = 1;
-        lastDebounceTime = millis();
-        goto attack;
-      }
-    }
-  }
-  lastButtonState = reading;
-
-  //Get Attack Values. Moved down here to enable fast attack
-  if (rising) {
-    aPot = map(analogRead(A3), 0, 1024, 1024, 0);
-    if (aPot == 1024) {
-      enVal = 4095;
-    } else {
-      float aCoeff = aPot / 16384;
-      enVal += aCoeff * (4311 - enVal);
-      if (enVal > 4095) {
-        enVal = 4095;
-      }
-    }
-  }
   delayMicroseconds(50);
 
 
-
-  //Poll Trigger Button, debounce, initialise Up phase
- reading = digitalRead(BUTTON);
-
-  if ((millis() - lastDebounceTime) > debounceDelay) {
-
-    if (reading != buttonState) {
-      buttonState = reading;
-      if (buttonState == LOW) {
-        enVal = 0;
-        x = 0;
-        loopStage = 0;
-        lastDebounceTime = millis();
-      }
-    }
-  }
-  lastButtonState = reading;
   delayMicroseconds(50);
 }
 
