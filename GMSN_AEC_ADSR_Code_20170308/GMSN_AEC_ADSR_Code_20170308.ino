@@ -81,7 +81,8 @@ attack:
 
     //Removed fast attack
     //float aCoeff = aPot / 16384;
-    enVal += aCoeff * (4311 - enVal);
+    //enVal += aCoeff * (4311 - enVal);
+    enVal+=aCoeff * 4100;
     if (enVal > 4095) {
       enVal = 4095;
     }
