@@ -73,10 +73,7 @@ void GetPots(){
 
 void loop() {
   GetPots();
-  //Fast attack label
-attack:
-
-  //Get Attack Values. Moved down here to enable fast attack
+  
   if (rising) {
 
     //Removed fast attack
