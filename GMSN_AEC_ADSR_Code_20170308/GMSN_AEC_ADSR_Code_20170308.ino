@@ -37,6 +37,10 @@ int SW1 = 6;
 int SW2 = 7;
 int DACCS = 10;
 
+float alpha=0.25;
+float alphaPower=(alpha-1)/alpha;
+float dx=1/1024;
+
 void setup() {
   //DAC Comms
   SPI.begin();
@@ -60,6 +64,8 @@ void setup() {
 
 void GetPots(){
   aPot = map(analogRead(A3), 0, 1024, 1024, 0);
+  dx=aPot/1024;
+  aCoeff = alpha*pow(enVal,alphaPower)*dx;
   dPot = map(analogRead(A2), 0, 1024, 200, 0);
   sPot = map(analogRead(A1), 0, 1024, 0, 4096);
   rPot = map(analogRead(A0), 0, 1024, 80, 0);
@@ -74,7 +80,7 @@ attack:
   if (rising) {
 
     //Removed fast attack
-    float aCoeff = aPot / 16384;
+    //float aCoeff = aPot / 16384;
     enVal += aCoeff * (4311 - enVal);
     if (enVal > 4095) {
       enVal = 4095;
