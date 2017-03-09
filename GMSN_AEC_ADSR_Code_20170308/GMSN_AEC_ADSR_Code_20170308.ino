@@ -65,7 +65,7 @@ void setup() {
 void GetPots(){
   aPot = map(analogRead(A3), 0, 1024, 1024, 0);
   dx=aPot/1024;
-  aCoeff = alpha*pow(enVal,alphaPower)*dx;
+  aCoeff = alpha*pow(enVal/4100,alphaPower)*dx;
   dPot = map(analogRead(A2), 0, 1024, 200, 0);
   sPot = map(analogRead(A1), 0, 1024, 0, 4096);
   rPot = map(analogRead(A0), 0, 1024, 80, 0);
