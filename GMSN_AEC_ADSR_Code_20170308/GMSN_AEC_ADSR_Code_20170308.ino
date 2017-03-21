@@ -105,9 +105,12 @@ void loop() {
       if (enVal == 4095) {
         rising = 0;
       }
-    } else {
+    } if (enVal <=sPot){  //  Sustain
+        mcpWrite((int)enVal);
+    }
+    else {
       //else continue with decay to sustain
-      enVal += dCoeff * (sPot - enVal);
+      enVal += dCoeff * (-4100);
       mcpWrite((int)enVal);
     }
   }
@@ -117,7 +120,7 @@ void loop() {
 
     //Quick release label
 rlease:
-    enVal += rCoeff * (-100 - enVal);
+    enVal += rCoeff * (-4100);
     if (enVal < 0) {
       enVal = 0;
     }
